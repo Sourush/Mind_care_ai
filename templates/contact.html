@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Contact - MindCare AI</title>
+<style>
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: #020617;
+    color: white;
+    height: 100vh;
+    overflow: hidden;
+}
+#bg-video {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    z-index: -1;
+    opacity: 0.25;
+}
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+.contact-box {
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(15px);
+    padding: 40px;
+    border-radius: 20px;
+    width: 400px;
+
+    box-shadow: 
+        0 0 20px rgba(59,130,246,0.2),
+        0 0 60px rgba(59,130,246,0.1);
+}
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+input, textarea {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 10px;
+    border: none;
+    background: #020617;
+    color: white;
+}
+button {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    background: #2563eb;
+    border: none;
+    color: white;
+    cursor: pointer;
+    transition: 0.2s;
+}
+button:hover {
+    transform: scale(1.05);
+}
+.back {
+    display: block;
+    text-align: center;
+    margin-top: 15px;
+    color: #93c5fd;
+    text-decoration: none;
+}
+.info {
+    text-align: center;
+    font-size: 14px;
+    color: #94a3b8;
+    margin-bottom: 10px;
+}
+</style>
+</head>
+<body>
+<video autoplay muted loop playsinline id="bg-video">
+<source src="{{ url_for('static', filename='bg.mp4') }}" type="video/mp4">
+</video>
+<div class="container">
+    <div class="contact-box">
+        <h1>Contact Us</h1>
+        <p class="info">We're here to listen. Reach out anytime 💙</p>
+        <form>
+            <input type="text" placeholder="Your Name" required>
+            <input type="email" placeholder="Your Email" required>
+            <textarea rows="4" placeholder="Your Message..." required></textarea>
+            <button type="submit">Send Message</button>
+        </form>
+        <a href="/login" class="back">← Back</a>
+    </div>
+</div>
+</body>
+</html>

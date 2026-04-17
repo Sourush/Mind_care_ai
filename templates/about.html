@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>About MindCare AI</title>
+<style>
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: #020617;
+    color: white;
+    height: 100vh;
+    overflow: hidden;
+}
+#bg-video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    z-index: -1;
+    opacity: 0.25;
+}
+.container {
+    position: absolute;
+    top: 50%;
+    left: 80px;
+    transform: translateY(-50%);
+    max-width: 600px;
+}
+h1 {
+    font-size: 40px;
+    margin-bottom: 20px;
+}
+#typeText {
+    font-size: 18px;
+    line-height: 1.6;
+    color: #cbd5f5;
+}
+.back {
+    margin-top: 30px;
+    display: inline-block;
+    padding: 10px 20px;
+    background: #2563eb;
+    border-radius: 10px;
+    text-decoration: none;
+    color: white;
+}
+</style>
+</head>
+<body>
+<video autoplay muted loop playsinline id="bg-video">
+<source src="{{ url_for('static', filename='bg.mp4') }}" type="video/mp4">
+</video>
+<div class="container">
+    <h1>About MindCare AI</h1>
+    <p id="typeText"></p>
+    <a href="/login" class="back">← Back</a>
+</div>
+<script>
+let text = "MindCare AI is your personal mental wellness companion designed to support, listen, and guide you through emotional challenges. It helps users express their thoughts freely, track emotional patterns, and receive supportive AI responses in real-time.";
+let i = 0;
+function typeEffect() {
+    if (i < text.length) {
+        document.getElementById("typeText").innerHTML += text[i];
+        i++;
+        setTimeout(typeEffect, 30);
+    }
+}
+typeEffect();
+</script>
+</body>
+</html>

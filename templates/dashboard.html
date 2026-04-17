@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>MindMate AI Dashboard</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: #020617;
+    color: white;
+    display: flex;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 220px;
+    height: 100vh;
+    background: #020617;
+    padding: 20px;
+    border-right: 1px solid #1e293b;
+}
+
+.sidebar h2 {
+    margin-bottom: 20px;
+}
+
+.sidebar a {
+    display: block;
+    padding: 10px;
+    margin: 5px 0;
+    color: #94a3b8;
+    text-decoration: none;
+    border-radius: 8px;
+}
+
+.sidebar a:hover {
+    background: #1e293b;
+}
+
+/* MAIN GRID */
+.main {
+    flex: 1;
+    padding: 30px;
+
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+}
+
+/* HEADER */
+.header h1 {
+    font-size: 28px;
+}
+
+/* CARD */
+.card {
+    background: #1e293b;
+    padding: 20px;
+    border-radius: 14px;
+    margin-top: 20px;
+
+    box-shadow: 
+        0 0 10px rgba(59,130,246,0.2),
+        0 0 20px rgba(59,130,246,0.1);
+}
+
+/* USER BUTTON */
+.user-list button {
+    margin: 5px;
+    padding: 8px 15px;
+    border-radius: 8px;
+    border: none;
+    background: #2563eb;
+    color: white;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.user-list button:hover {
+    transform: scale(1.1);
+    background: #3b82f6;
+}
+
+/* CHAT */
+.log-box {
+    background: #0f172a;
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+/* TEXT */
+.user { color: #22c55e; }
+.bot { color: #93c5fd; }
+
+/* BADGE */
+.badge {
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+}
+
+.normal { background: #16a34a; }
+.anxiety { background: #eab308; color: black; }
+.depression { background: #f97316; }
+.critical { background: #dc2626; }
+
+.small-text {
+    font-size: 13px;
+    color: #94a3b8;
+}
+#bg-video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+
+    object-fit: cover;
+    z-index: -1;
+
+    opacity: 0.25;
+    pointer-events: none;
+}
+</style>
+</head>
+
+<body>
+<video autoplay muted loop id="bg-video">
+<source src="{{ url_for('static', filename='bg.mp4') }}" type="video/mp4">
+</video>
+<div class="sidebar">
+    <h2>🧠 MindMate</h2>
+    <a href="/login">Home</a>
+    <a href="/admin">admin</a>
+    <a href="#">insights</a>
+    <hr style="margin:15px 0;">
+    <h3>Menu</h3>
+    <a href="#">Dashboard</a>
+    <br>
+    <a href="/admin/logout" style="color:red;">Logout</a>
+</div>
+<div class="main">
+    <div>
+        <div class="header">
+            <h1>Admin Page</h1>
+        </div>
+        <p>Welcome Admin 😎</p>
+        <div class="card">
+            Neutral mood likely
+        </div>
+        <div class="card">
+            <h3>Select User</h3>
+            <div class="user-list">
+            {% for username in users %}
+                <button onclick="showUser('{{ username }}')">{{ username }}</button>
+            {% endfor %}
+            </div>
+        </div>
+        <div id="chatArea"></div>
+    </div>
+    <div>
+        <div class="card">
+            <h3>🧾 Logout Activity</h3>
+            {% for log in logout_logs %}
+                <p class="small-text">{{ log }}</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+<script id="user-data" type="application/json">
+{{ users | tojson | safe }}
+</script>
+<script>
+let userData = JSON.parse(document.getElementById("user-data").textContent);
+function showUser(name) {
+    let chats = userData[name] || [];
+    let html = "";
+    chats.forEach(chat => {
+        html += `
+        <div class="log-box">
+            <p class="user"><b>User:</b> ${chat.user}</p>
+            <p class="bot"><b>Bot:</b> ${chat.bot}</p>
+            <span class="badge ${
+                chat.emotion === "Critical" ? "critical" :
+                chat.emotion === "Depression" ? "depression" :
+                chat.emotion === "Anxiety" ? "anxiety" :
+                "normal"
+            }">
+            ${chat.emotion}
+            </span>
+        </div>`;
+    });
+    document.getElementById("chatArea").innerHTML = html;
+}
+</script>
+</body>
+</html>

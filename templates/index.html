@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>MindCare AI</title>
+<style>
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: #020617;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+.chat-container {
+    width: 420px;
+    height: 650px;
+    background: #0f172a;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+}
+.chat-container::before {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    border-radius: 22px;
+    background: linear-gradient(
+        45deg,
+        #3b82f6,
+        #22c55e,
+        #6366f1,
+        #3b82f6
+    );
+    background-size: 300% 300%;
+    animation: rgbGlow 6s linear infinite;
+    z-index: -1;
+}
+.chat-container::after {
+    content: "";
+    position: absolute;
+    inset: 2px;
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
+    z-index: -1;
+}
+@keyframes rgbGlow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+.chat-header {
+    padding: 18px;
+    background: #111827;
+    border-bottom: 1px solid #1f2937;
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.admin-btn {
+    background: #2563eb;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+}
+.chat-box {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+}
+.message {
+    max-width: 70%;
+    padding: 12px 16px;
+    border-radius: 16px;
+    margin: 8px 0;
+    font-size: 14px;
+    line-height: 1.5;
+    animation: fadeIn 0.3s ease;
+    box-shadow: 
+        0 0 10px rgba(0,0,0,0.2),
+        inset 0 0 10px rgba(255,255,255,0.05);
+}
+.message:hover {
+    transform: scale(1.02);
+    box-shadow: 
+        0 0 20px rgba(59,130,246,0.3),
+        inset 0 0 10px rgba(255,255,255,0.1);
+}
+.user {
+    align-self: flex-end;
+    background: rgba(34, 197, 94, 0.15); /* transparent green */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(34, 197, 94, 0.3);
+    color: #d1fae5;
+}
+.bot {
+    align-self: flex-start;
+    background: rgba(30, 41, 59, 0.4);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    color: #e2e8f0;
+}
+.chat-input {
+    display: flex;
+    padding: 10px;
+    border-top: 1px solid #1f2937;
+}
+#bg-video {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+    z-index: -1;
+    object-fit: cover;
+    opacity: 0.3;
+}
+.chat-input input {
+    flex: 1;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    background: #020617;
+    color: white;
+}
+.chat-input button {
+    margin-left: 10px;
+    padding: 10px 15px;
+    border-radius: 10px;
+    background: #2563eb;
+    border: none;
+    color: white;
+}
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.8);
+    backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+}
+.modal-box {
+    background: #0f172a;
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 0 30px rgba(59,130,246,0.4);
+}
+.modal-box button {
+    display: block;
+    width: 100%;
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    background: #2563eb;
+    color: white;
+    cursor: pointer;
+}
+@keyframes fadeIn {
+    from {opacity: 0; transform: translateY(5px);}
+    to {opacity: 1; transform: translateY(0);}
+}
+.chat-container.dada {
+    background: #1e293b;
+}
+.chat-container.dada .user {
+    background: rgba(59,130,246,0.2);
+    border: 1px solid #3b82f6;
+}
+.chat-container.dada .bot {
+    background: rgba(148,163,184,0.2);
+}
+.chat-container.dada {
+    background: #1e293b;
+}
+.chat-container.dada .user {
+    background: rgba(59,130,246,0.2);
+    border: 1px solid #3b82f6;
+}
+.chat-container.dada .bot {
+    background: rgba(148,163,184,0.2);
+}
+.chat-container.sister {
+    background: #2b1f3b;
+}
+.chat-container.sister .user {
+    background: rgba(168,85,247,0.2);
+    border: 1px solid #a855f7;
+}
+.chat-container.sister .bot {
+    background: rgba(196,181,253,0.15);
+}
+.chat-container.brother {
+    background: #1f3b2b;
+}
+.chat-container.brother .user {
+    background: rgba(34,197,94,0.2);
+    border: 1px solid #22c55e;
+}
+.chat-container.brother .bot {
+    background: rgba(134,239,172,0.15);
+}
+.chat-container.partner {
+    background: #3b1f1f;
+}
+.chat-container.partner .user {
+    background: rgba(239,68,68,0.2);
+    border: 1px solid #ef4444;
+}
+.chat-container.partner .bot {
+    background: rgba(252,165,165,0.15);
+}
+</style>
+</head>
+<body>
+<div id="modeModal" class="modal">
+    <div class="modal-box">
+        <h2><font color="white">Select Your AI Companion</font></h2>
+        <button onclick="selectMode('dada')">Dada</button>
+        <button onclick="selectMode('mom')">Mom</button>
+        <button onclick="selectMode('sister')">Sister</button>
+        <button onclick="selectMode('brother')">Brother</button>
+        <button onclick="selectMode('partner')">Partner</button>
+    </div>
+</div>    
+<video autoplay muted loop id="bg-video">
+<source src="{{ url_for('static', filename='bg.mp4') }}" type="video/mp4">
+</video>
+<div class="chat-container">
+    <div class="chat-header">
+    <font color = "white">MindCare AI</font>
+    <a href="/logout" class="admin-btn">Logout</a>
+    </div>
+    <div class="chat-box" id="chatBox"></div>
+    <div class="chat-input">
+        <input type="text" id="userInput" placeholder="Type your thoughts...">
+        <button onclick="sendMessage()">Send</button>
+    </div>
+</div>
+<script>
+    
+const urlParams = new URLSearchParams(window.location.search);
+let selectedMode = "{{ mode or '' }}";
+window.onload = function() {
+    if (selectedMode) {
+        selectMode(selectedMode);
+    } else {
+        document.getElementById("modeModal").style.display = "flex";
+    }
+}
+function selectMode(mode) {
+    selectedMode = mode;
+    document.querySelector(".chat-container").className = "chat-container " + mode;
+    document.getElementById("modeModal").style.display = "none";
+}
+function typeEffect(element, text, speed = 30) {
+    let i = 0;
+    element.textContent = "";  
+    function typing() {
+        if (i < text.length) {
+            element.textContent += text[i];  
+            i++;
+            setTimeout(typing, speed);
+        }
+    }
+    typing();
+}
+async function sendMessage() {
+    if (!selectedMode) {
+        alert("Please select a personality first 😄");
+        return;
+    }
+    let input = document.getElementById("userInput").value;
+    if (!input) return;
+    let chatBox = document.getElementById("chatBox");
+    let userMsg = document.createElement("div");
+    userMsg.className = "message user";
+    userMsg.innerText = input;
+    chatBox.appendChild(userMsg);
+    document.getElementById("userInput").value = "";
+    let botMsg = document.createElement("div");
+    botMsg.className = "message bot";
+    botMsg.innerText = "Typing...";
+    chatBox.appendChild(botMsg);
+    let response = await fetch("http://127.0.0.1:5000/chat", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+            message: input,
+            mode: selectedMode
+        })
+    });
+    let data = await response.json();
+    setTimeout(() => {
+        typeEffect(botMsg, data.response);
+    }, 800);
+    chatBox.scrollTop = chatBox.scrollHeight;
+}
+</script>
+</body>
+</html>

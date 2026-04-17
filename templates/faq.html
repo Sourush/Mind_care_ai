@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>FAQ - MindCare AI</title>
+<style>
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: #020617;
+    color: white;
+    height: 100vh;
+    overflow: hidden;
+}
+#bg-video {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    z-index: -1;
+    opacity: 0.25;
+}
+.container {
+    position: absolute;
+    top: 50%;
+    left: 80px;
+    transform: translateY(-50%);
+    max-width: 700px;
+}
+h1 {
+    font-size: 40px;
+    margin-bottom: 20px;
+}
+.faq-item {
+    margin: 15px 0;
+    cursor: pointer;
+}
+.question {
+    font-weight: bold;
+    color: #93c5fd;
+}
+.answer {
+    display: none;
+    margin-top: 5px;
+    color: #cbd5f5;
+}
+.back {
+    margin-top: 30px;
+    display: inline-block;
+    padding: 10px 20px;
+    background: #2563eb;
+    border-radius: 10px;
+    text-decoration: none;
+    color: white;
+}
+</style>
+</head>
+<body>
+<video autoplay muted loop playsinline id="bg-video">
+<source src="{{ url_for('static', filename='bg.mp4') }}" type="video/mp4">
+</video>
+<div class="container">
+    <h1>Frequently Asked Questions</h1>
+    <div class="faq-item" onclick="toggle(this)">
+        <div class="question">What is MindCare AI?</div>
+        <div class="answer">It is an AI-based mental wellness assistant designed to support and guide users.</div>
+    </div>
+    <div class="faq-item" onclick="toggle(this)">
+        <div class="question">Is it a replacement for therapy?</div>
+        <div class="answer">No, it complements professional help but does not replace it.</div>
+    </div>
+    <div class="faq-item" onclick="toggle(this)">
+        <div class="question">Is my data safe?</div>
+        <div class="answer">Yes, user privacy and data safety are a top priority.</div>
+    </div>
+    <a href="/login" class="back">← Back</a>
+</div>
+<script>
+function toggle(element) {
+    let answer = element.querySelector(".answer");
+    answer.style.display = answer.style.display === "block" ? "none" : "block";
+}
+</script>
+</body>
+</html>

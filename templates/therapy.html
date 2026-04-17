@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Therapy - MindCare AI</title>
+<style>
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: #020617;
+    color: white;
+    height: 100vh;
+    overflow: hidden;
+}
+#bg-video {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    z-index: -1;
+    opacity: 0.25;
+}
+.container {
+    position: absolute;
+    top: 50%;
+    left: 80px;
+    transform: translateY(-50%);
+    max-width: 700px;
+}
+h1 {
+    font-size: 40px;
+    margin-bottom: 20px;
+}
+.point {
+    margin: 15px 0;
+}
+.title {
+    font-size: 18px;
+    color: #93c5fd;
+    font-weight: bold;
+}
+.desc {
+    font-size: 16px;
+    color: #cbd5f5;
+    margin-top: 5px;
+}
+.back {
+    margin-top: 30px;
+    display: inline-block;
+    padding: 10px 20px;
+    background: #2563eb;
+    border-radius: 10px;
+    text-decoration: none;
+    color: white;
+}
+</style>
+</head>
+<body>
+<video autoplay muted loop playsinline id="bg-video">
+<source src="{{ url_for('static', filename='bg.mp4') }}" type="video/mp4">
+</video>
+<div class="container">
+    <h1>Therapy Support</h1>
+    <div id="content"></div>
+    <a href="/login" class="back">← Back</a>
+</div>
+<script>
+let points = [
+{
+    title: "1) Move your body",
+    desc: "Physical movement helps release stress, improves mood, and boosts overall mental clarity."
+},
+{
+    title: "2) Have a daily anchor",
+    desc: "From work to daily responsibilities, life gets busy. Creating a small daily routine helps you stay grounded and calm."
+},
+{
+    title: "3) Prioritize sleep",
+    desc: "Sleep plays a major role in managing stress. Lack of proper sleep can increase the risk of health issues."
+},
+{
+    title: "4) Consume less",
+    desc: "We live in a world full of constant information. Reducing content intake can help avoid overstimulation and mental fatigue."
+}
+];
+let i = 0;
+let j = 0;
+let currentText = "";
+let currentPoint = 0;
+function typeEffect() {
+    if (currentPoint < points.length) {
+        let title = points[currentPoint].title;
+        let desc = points[currentPoint].desc;
+        let fullText = `<div class="point"><div class="title">${title}</div><div class="desc">${desc}</div></div>`;
+        document.getElementById("content").innerHTML += fullText;
+        currentPoint++;
+        setTimeout(typeEffect, 600);
+    }
+}
+typeEffect();
+</script>
+</body>
+</html>
